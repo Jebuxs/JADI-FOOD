@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos - JADI-FOOD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen p-4">
+    <div class="max-w-md mx-auto">
+        <button onclick="window.location.href='admin.html'" class="mb-6 text-gray-400"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+        <h1 class="text-2xl font-black mb-6 uppercase italic text-green-600">Configurar Cobros</h1>
+
+        <div class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-green-100 space-y-4">
+            <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase">Nombre del Banco / App</label>
+                <input type="text" id="banco" placeholder="Ej: Deuna / Pichincha" class="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+            <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase">Link de Imagen QR (Opcional)</label>
+                <input type="text" id="qr-link" placeholder="Pegar URL de tu QR" class="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-green-500 text-xs">
+            </div>
+            <button onclick="guardarPago()" class="w-full bg-green-600 text-white p-4 rounded-2xl font-black shadow-lg">ACTUALIZAR DATOS DE PAGO</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from "../config/firebase-config.js";
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        window.guardarPago = async () => {
+            const b = document.getElementById('banco').value;
+            const q = document.getElementById('qr-link').value;
+            await setDoc(doc(db, "config_local", "pagos"), { banco: b, qr: q }, { merge: true });
+            alert("Datos de cobro actualizados.");
+        }
+    </script>
+</body>
+</html>
