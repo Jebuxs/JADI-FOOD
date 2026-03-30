@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><title>Facturas - JADI-FOOD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 min-h-screen p-4">
+    <div class="max-w-md mx-auto">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-xl font-black text-blue-600"><i class="fa-solid fa-file-invoice"></i> HISTORIAL FISCAL</h1>
+            <button onclick="window.location.href='admin.html'" class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Cerrar</button>
+        </header>
+
+        <div class="bg-white rounded-3xl p-6 shadow-sm mb-6">
+            <input type="text" placeholder="Buscar por Cédula o Nombre..." class="w-full p-3 bg-gray-100 rounded-xl outline-none text-sm mb-4">
+            <div id="lista-facturas" class="space-y-3">
+                <p class="text-center text-gray-400 text-xs italic">Cargando registros...</p>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { db } from "../config/firebase-config.js";
+        import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        async function cargarFacturas() {
+            const snap = await getDocs(query(collection(db, "pedidos"), orderBy("fecha", "desc")));
+            const div = document.getElementById('lista-facturas');
+            div.innerHTML = "";
+            snap.forEach(d => {
+                const f = d.data();
+                div.innerHTML += `<div class="border-b pb-2 flex justify-between items-center">
+                    <div><p class="font-bold text-sm">${f.cliente || 'C. Final'}</p><p class="text-[10px] text-gray-400">${f.fecha.toDate().toLocaleDateString()}</p></div>
+                    <p class="font-black text-blue-600">$${f.total}</p>
+                </div>`;
+            });
+        }
+        cargarFacturas();
+    </script>
+</body>
+</html>
