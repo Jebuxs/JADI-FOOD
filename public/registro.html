@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - JADI-FOOD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+
+    <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-gray-100">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-black text-gray-900 tracking-tight">NUEVA CUENTA</h1>
+            <p class="text-orange-600 font-bold text-[10px] uppercase tracking-[0.2em] mt-2 text-center">Únete al equipo JADI-FOOD</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"><i class="fa-solid fa-id-card"></i></span>
+                <input type="text" id="nombre" placeholder="Nombre Completo" 
+                    class="w-full pl-12 p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
+            </div>
+
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" id="reg-email" placeholder="Correo Electrónico" 
+                    class="w-full pl-12 p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
+            </div>
+
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" id="reg-password" placeholder="Crear Contraseña" 
+                    class="w-full pl-12 p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
+            </div>
+
+            <button onclick="crearCuenta()" id="btn-reg" class="w-full bg-orange-600 text-white p-4 rounded-2xl font-black text-lg shadow-xl hover:bg-orange-700 active:scale-[0.98] transition-all mt-4">
+                CREAR CUENTA
+            </button>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-500">¿Ya tienes cuenta? <a href="index.html" class="text-orange-600 font-bold hover:underline">Volver al Login</a></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from "../config/firebase-config.js";
+        import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        window.crearCuenta = async () => {
+            const nom = document.getElementById('nombre').value;
+            const mail = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+            const btn = document.getElementById('btn-reg');
+
+            if(!nom || !mail || !pass) return alert("Por favor, llena todos los campos");
+
+            btn.disabled = true;
+            btn.innerText = "PROCESANDO...";
+
+            try {
+                // 1. Crear usuario en Auth
+                const cred = await createUserWithEmailAndPassword(auth, mail, pass);
+                
+                // 2. Guardar nombre en el perfil
+                await updateProfile(cred.user, { displayName: nom });
+
+                // 3. Guardar en Base de Datos (Firestore)
+                await setDoc(doc(db, "usuarios", cred.user.uid), {
+                    nombre: nom,
+                    email: mail,
+                    fecha_registro: new Date(),
+                    rol: "vendedor_nuevo"
+                });
+
+                alert("¡Cuenta creada con éxito! Ahora puedes ingresar.");
+                window.location.href = "index.html";
+
+            } catch (e) {
+                alert("Error: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "CREAR CUENTA";
+            }
+        };
+    </script>
+</body>
+</html>
