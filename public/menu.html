@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - JADI-FOOD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen pb-20">
+
+    <nav class="bg-white p-4 shadow-sm flex items-center justify-between sticky top-0 z-50">
+        <button onclick="window.location.href='admin.html'" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+        <h1 class="text-lg font-black uppercase tracking-tighter">Gestionar Menú</h1>
+        <div class="w-6"></div>
+    </nav>
+
+    <div class="p-4 max-w-md mx-auto">
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm mb-8 border border-orange-100">
+            <h2 class="font-bold text-gray-400 text-[10px] uppercase mb-4 tracking-widest">Nuevo Plato</h2>
+            <div class="space-y-3">
+                <input type="text" id="nombre-plato" placeholder="Nombre (Ej: Hornado Especial)" class="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-medium">
+                <div class="flex gap-2">
+                    <input type="number" id="precio-plato" placeholder="Precio ($)" class="w-2/3 p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-bold text-orange-600">
+                    <select id="iva-plato" class="w-1/3 p-4 bg-gray-50 rounded-2xl outline-none text-xs font-bold uppercase">
+                        <option value="0">0% IVA</option>
+                        <option value="15">15% IVA</option>
+                    </select>
+                </div>
+                <button onclick="guardarPlato()" id="btn-guardar" class="w-full bg-orange-600 text-white p-4 rounded-2xl font-black shadow-lg active:scale-95 transition-all">
+                    AÑADIR AL MENÚ
+                </button>
+            </div>
+        </div>
+
+        <h3 class="font-black text-gray-900 mb-4">Platos en Carta</h3>
+        <div id="lista-menu" class="space-y-3">
+            </div>
+    </div>
+
+    <script type="module">
+        import { db } from "../config/firebase-config.js";
+        import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const menuRef = collection(db, "platos");
+
+        window.guardarPlato = async () => {
+            const nom = document.getElementById('nombre-plato').value;
+            const pre = document.getElementById('precio-plato').value;
+            const iva = document.getElementById('iva-plato').value;
+            const btn = document.getElementById('btn-guardar');
+
+            if(!nom || !pre) return alert("Llena los datos, bro");
+
+            btn.innerText = "GUARDANDO...";
+            try {
+                await addDoc(menuRef, { nombre: nom, precio: pre, iva: iva, creado: new Date() });
+                location.reload();
+            } catch (e) { alert("Error: " + e.message); }
+        };
+
+        async function cargarMenu() {
+            const q = query(menuRef, orderBy("creado", "desc"));
+            const snapshot = await getDocs(q);
+            const contenedor = document.getElementById('lista-menu');
+            contenedor.innerHTML = "";
+
+            snapshot.forEach(d => {
+                const p = d.data();
+                contenedor.innerHTML += `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border-l-4 border-orange-500">
+                        <div>
+                            <p class="font-bold text-gray-800">${p.nombre}</p>
+                            <p class="text-orange-600 font-black">$ ${parseFloat(p.precio).toFixed(2)} <span class="text-[9px] text-gray-400 font-normal">IVA ${p.iva}%</span></p>
+                        </div>
+                        <button onclick="borrarPlato('${d.id}')" class="text-gray-200 hover:text-red-500 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                `;
+            });
+        }
+        window.borrarPlato = async (id) => { if(confirm("¿Borrar plato?")) { await deleteDoc(doc(db, "platos", id)); location.reload(); } };
+        cargarMenu();
+    </script>
+</body>
+</html>
