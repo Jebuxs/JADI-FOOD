@@ -7,20 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-4 font-sans text-gray-900">
 
-    <div class="w-full max-w-md mb-6 rounded-3xl shadow-xl bg-gradient-to-r from-orange-600 to-orange-500 p-6 text-white relative overflow-hidden">
+    <div class="w-full max-w-md mb-6 rounded-3xl shadow-xl bg-gradient-to-br from-orange-600 to-orange-400 p-6 text-white relative overflow-hidden">
         <div class="relative z-10">
             <h3 class="text-2xl font-black italic tracking-tighter">JADI-FOOD</h3>
-            <p class="text-xs font-medium opacity-80 mt-1">SISTEMA DE GESTIÓN GASTRONÓMICA</p>
-            <div class="mt-4 py-2 px-4 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30 text-[11px] font-bold inline-block">
-                📢 PUBLICIDAD: ¡Potencia tus ventas hoy!
+            <p class="text-xs font-medium opacity-90 mt-1">"Sabores que conectan, tecnología que vende."</p>
+            <div class="mt-4 py-2 px-4 bg-white/20 backdrop-blur-md rounded-xl border border-white/30 text-[10px] font-bold inline-block uppercase tracking-widest">
+                🚀 PROMO: ¡Incentiva tus ventas digitales!
             </div>
         </div>
-        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-white/10 rounded-full"></div>
     </div>
 
-    <div id="login-card" class="bg-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-gray-100">
+    <div id="login-card" class="bg-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-gray-50">
         <div class="text-center mb-8">
             <h1 class="text-4xl font-black text-gray-900 tracking-tight">HOLA,</h1>
             <p id="local-tag" class="text-orange-600 font-bold text-[10px] uppercase tracking-[0.2em] mt-2">Identificando Local...</p>
@@ -28,54 +28,65 @@
 
         <div class="space-y-5">
             <div>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"><i class="fa-solid fa-envelope"></i></span>
-                    <input type="email" id="email" placeholder="Usuario / Email" 
-                        class="w-full pl-12 p-5 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
+                <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Usuario / Email</label>
+                <div class="relative mt-1">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input type="email" id="email" placeholder="ejemplo@jadi.com" 
+                        class="w-full pl-12 p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
                 </div>
             </div>
 
             <div>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" id="password" placeholder="Contraseña" 
-                        class="w-full pl-12 pr-14 p-5 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
+                <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Contraseña</label>
+                <div class="relative mt-1">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+                        <i class="fa-solid fa-lock"></i>
+                    </span>
+                    <input type="password" id="password" placeholder="••••••••" 
+                        class="w-full pl-12 pr-14 p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all font-medium">
                     <button onclick="togglePass()" class="absolute inset-y-0 right-0 pr-5 flex items-center text-gray-400 hover:text-orange-500 transition-colors">
                         <i id="eye-icon" class="fa-solid fa-eye text-xl"></i>
                     </button>
                 </div>
             </div>
 
-            <button onclick="entrarEmail()" class="w-full bg-gray-900 text-white p-5 rounded-2xl font-black text-lg shadow-xl hover:bg-black active:scale-[0.98] transition-all">
+            <button onclick="entrarEmail()" id="btn-login" class="w-full bg-gray-900 text-white p-5 rounded-2xl font-black text-lg shadow-xl hover:bg-black active:scale-[0.98] transition-all mt-2 uppercase tracking-tighter">
                 INICIAR SESIÓN
             </button>
         </div>
 
         <div class="relative my-8 text-center">
-            <span class="bg-white px-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest relative z-10">O entra con</span>
+            <span class="bg-white px-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest relative z-10">O accede con</span>
             <div class="absolute top-1/2 left-0 w-full border-t border-gray-100"></div>
         </div>
 
-        <button onclick="entrarGoogle()" class="flex items-center justify-center w-full border-2 border-gray-100 p-5 rounded-2xl font-bold text-gray-700 hover:bg-gray-50 transition-all active:scale-[0.98]">
+        <button onclick="entrarGoogle()" class="flex items-center justify-center w-full border-2 border-gray-100 p-5 rounded-2xl font-bold text-gray-700 hover:bg-gray-50 transition-all active:scale-[0.98] shadow-sm">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/pms/google.png" class="w-6 mr-3">
             Acceso Gmail
         </button>
 
-        <div class="mt-8 text-center">
-            <button class="text-sm font-bold text-gray-400 hover:text-orange-600 transition-colors">¿No tienes cuenta? <span class="text-orange-600 underline">Regístrate</span></button>
+        <div class="mt-10 text-center">
+            <p class="text-sm text-gray-500 italic">
+                ¿Eres nuevo en el equipo? 
+                <a href="registro.html" class="block mt-1 text-orange-600 font-black hover:underline decoration-2 underline-offset-4 transition-all uppercase tracking-tighter">
+                    REGISTRARME AQUÍ
+                </a>
+            </p>
         </div>
     </div>
 
     <script type="module">
         import { auth, provider } from "../config/firebase-config.js";
-        import { signInWithPopup, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // Parámetros de la URL para identificar el local
+        // Parámetros de la URL (Para saber qué local es)
         const query = new URLSearchParams(window.location.search);
-        const localName = query.get('local') || "MATRIZ JADI";
-        document.getElementById('local-tag').innerText = `Local: ${localName}`;
+        const localName = query.get('local') || "SEDE CENTRAL";
+        document.getElementById('local-tag').innerText = `LOCAL: ${localName.replace("-", " ")}`;
 
-        // Lógica del Ojo
+        // Lógica para mostrar/ocultar contraseña (Ojito de Pollo)
         window.togglePass = () => {
             const input = document.getElementById('password');
             const icon = document.getElementById('eye-icon');
@@ -88,17 +99,44 @@
             }
         };
 
-        // Métodos de Login
+        // Escuchar cambios de sesión
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Sesión activa:", user.displayName);
+                // Aquí podrías redirigir al panel de ventas si ya existe
+            }
+        });
+
+        // Ingreso con Gmail
         window.entrarGoogle = async () => {
-            try { await signInWithPopup(auth, provider); alert("Acceso concedido"); }
-            catch (e) { alert("Error Google: " + e.message); }
+            try { 
+                await signInWithPopup(auth, provider); 
+                alert("¡Bienvenido al sistema!");
+            } catch (e) { 
+                alert("Error con Google: " + e.message); 
+            }
         };
 
+        // Ingreso con Email/Clave
         window.entrarEmail = async () => {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
-            try { await signInWithEmailAndPassword(auth, email, pass); alert("Acceso concedido"); }
-            catch (e) { alert("Error: Verifica tus datos"); }
+            const btn = document.getElementById('btn-login');
+
+            if(!email || !pass) return alert("Ingresa tus credenciales completo, bro.");
+
+            btn.disabled = true;
+            btn.innerText = "VERIFICANDO...";
+
+            try { 
+                await signInWithEmailAndPassword(auth, email, pass); 
+                alert("Ingreso exitoso"); 
+            } catch (e) { 
+                alert("Acceso denegado: Verifica tu usuario o clave."); 
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "INICIAR SESIÓN";
+            }
         };
     </script>
 </body>
