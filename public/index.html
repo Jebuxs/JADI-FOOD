@@ -3,124 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Ventas - JADI-FOOD</title>
+    <title>Acceso - JADI-FOOD</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4 font-sans">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div id="login-card" class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm text-center">
-        <div class="mb-6">
-            <div class="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span class="text-4xl">🍗</span>
+    <div class="w-full max-w-md mb-6 overflow-hidden rounded-2xl shadow-lg bg-orange-500 relative">
+        <div class="p-6 text-white">
+            <h3 class="font-black text-xl italic uppercase">JADI-FOOD</h3>
+            <p class="text-sm opacity-90">"El sabor que te mueve, ahora digital."</p>
+            <div class="mt-4 bg-white/20 p-3 rounded-lg text-xs border border-white/30">
+                🚀 **PROMO:** ¡Vende 100 platos y gana un bono JADI!
             </div>
-            <h1 class="text-3xl font-black text-gray-800">JADI-FOOD</h1>
-            <p id="subtitulo-local" class="text-orange-600 font-bold mt-2 uppercase tracking-widest text-xs">Cargando sucursal...</p>
         </div>
-        
-        <button onclick="acceder()" class="flex items-center justify-center w-full border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-700 hover:bg-gray-50 transition-all active:scale-95 shadow-sm">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/pms/google.png" class="w-6 mr-3">
-            Entrar con Google
-        </button>
-        <p class="text-[10px] text-gray-400 mt-6 uppercase">Acceso exclusivo para personal autorizado</p>
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-orange-400 rounded-full opacity-50"></div>
     </div>
 
-    <div id="app-card" class="hidden bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
-        <div class="bg-orange-600 p-6 text-white flex justify-between items-center">
-            <div>
-                <h2 id="display-local" class="font-black text-xl leading-none">LOCAL</h2>
-                <p id="display-vendedor" class="text-orange-200 text-xs mt-1 italic"></p>
-            </div>
-            <button onclick="salir()" class="bg-orange-700 p-2 rounded-lg text-xs hover:bg-orange-800">Salir</button>
+    <div id="login-card" class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-black text-gray-800 tracking-tighter">INICIAR SESIÓN</h1>
+            <p id="local-info" class="text-orange-600 text-[10px] font-bold uppercase mt-1 tracking-widest">Cargando Sucursal...</p>
         </div>
 
-        <div class="p-8 space-y-5">
+        <div class="space-y-4">
             <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Celular del Cliente</label>
-                <input type="tel" id="celular" placeholder="0990000000" class="w-full p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all text-lg font-bold">
+                <label class="text-xs font-bold text-gray-400 uppercase ml-1">Usuario</label>
+                <div class="relative mt-1">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                    <input type="text" id="email" placeholder="usuario@jadi.com" 
+                        class="w-full pl-10 p-4 bg-gray-50 border-2 border-gray-100 focus:border-orange-500 rounded-2xl outline-none transition-all">
+                </div>
             </div>
 
             <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Cantidad de Platos</label>
-                <input type="number" id="cantidad" placeholder="1" min="1" class="w-full p-4 bg-gray-50 border-2 border-transparent focus:border-orange-500 rounded-2xl outline-none transition-all text-lg font-bold">
+                <label class="text-xs font-bold text-gray-400 uppercase ml-1">Clave</label>
+                <div class="relative mt-1">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                        <i class="fa-solid fa-lock"></i>
+                    </span>
+                    <input type="password" id="password" placeholder="••••••••" 
+                        class="w-full pl-10 pr-12 p-4 bg-gray-50 border-2 border-gray-100 focus:border-orange-500 rounded-2xl outline-none transition-all">
+                    <button onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-orange-500">
+                        <i id="eye-icon" class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
             </div>
 
-            <button onclick="procesarVenta()" id="btn-venta" class="w-full bg-gray-900 text-white p-5 rounded-2xl font-black text-lg shadow-lg hover:bg-black active:scale-95 transition-all">
-                REGISTRAR VENTA
+            <button onclick="loginEmail()" class="w-full bg-gray-900 text-white p-4 rounded-2xl font-black text-lg shadow-lg hover:bg-black active:scale-95 transition-all mt-2">
+                INGRESAR
             </button>
+        </div>
+
+        <div class="relative my-8">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-100"></div></div>
+            <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-2 text-gray-400 font-bold">O accede con</span></div>
+        </div>
+
+        <button onclick="loginGoogle()" class="flex items-center justify-center w-full border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-700 hover:bg-gray-50 transition-all active:scale-95 shadow-sm">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/pms/google.png" class="w-6 mr-3">
+            Gmail
+        </button>
+
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-500">¿No tienes cuenta? <a href="#" class="text-orange-600 font-bold hover:underline">Registrarse</a></p>
         </div>
     </div>
 
     <script type="module">
         import { db, auth, provider } from "./firebase-config.js";
-        import { signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { signInWithPopup, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // Capturar datos del link
-        const urlParams = new URLSearchParams(window.location.search);
-        const LOCAL_ID = urlParams.get('local') || "JADI-CENTRAL";
-        const ROL = urlParams.get('rol') || "vendedor";
+        // Detectar sucursal del link
+        const params = new URLSearchParams(window.location.search);
+        const local = params.get('local') || "Sede Central";
+        document.getElementById('local-info').innerText = `Sucursal: ${local}`;
 
-        document.getElementById('subtitulo-local').innerText = `SUCURSAL: ${LOCAL_ID}`;
-        document.getElementById('display-local').innerText = LOCAL_ID.replace("-", " ");
-
-        // Lógica de Autenticación
-        window.acceder = () => signInWithPopup(auth, provider);
-        window.salir = () => signOut(auth);
-
-        onAuthStateChanged(auth, (user) => {
-            const loginCard = document.getElementById('login-card');
-            const appCard = document.getElementById('app-card');
-            
-            if (user) {
-                loginCard.classList.add('hidden');
-                appCard.classList.remove('hidden');
-                document.getElementById('display-vendedor').innerText = `Atendiendo: ${user.displayName}`;
+        // Lógica del Ojito de Pollo
+        window.togglePassword = () => {
+            const passInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                eyeIcon.classList.replace("fa-eye", "fa-eye-slash");
             } else {
-                loginCard.classList.remove('hidden');
-                appCard.classList.add('hidden');
+                passInput.type = "password";
+                eyeIcon.classList.replace("fa-eye-slash", "fa-eye");
             }
-        });
+        };
 
-        // Lógica de Venta
-        window.procesarVenta = async () => {
-            const cel = document.getElementById('celular').value;
-            const cant = document.getElementById('cantidad').value;
-            const btn = document.getElementById('btn-venta');
+        // Login con Google
+        window.loginGoogle = () => {
+            signInWithPopup(auth, provider)
+                .then(() => alert("¡Bienvenido! Redirigiendo..."))
+                .catch(err => alert("Error Google: " + err.message));
+        };
 
-            if(!cel || !cant) return alert("Por favor, ingresa los datos de la venta.");
-
-            btn.disabled = true;
-            btn.innerText = "GUARDANDO...";
-
-            try {
-                const venta = await addDoc(collection(db, "pedidos"), {
-                    local: LOCAL_ID,
-                    rol_vendedor: ROL,
-                    vendedor_nombre: auth.currentUser.displayName,
-                    vendedor_email: auth.currentUser.email,
-                    cliente_celular: cel,
-                    cantidad_platos: cant,
-                    estado_pago: "Pendiente",
-                    fecha: serverTimestamp()
-                });
-
-                // Link para el cliente (Lo crearemos mañana)
-                const urlCliente = `https://jebuxs.github.io/JADI-FOOD/public/cliente.html?id=${venta.id}`;
-                const mensajeWA = `¡Hola! JADI-FOOD confirma tu pedido de ${cant} platos. Mira tu comprobante y QR aquí: ${urlCliente}`;
-                
-                window.open(`https://wa.me/593${cel.substring(1)}?text=${encodeURIComponent(mensajeWA)}`, '_blank');
-                
-                // Limpiar formulario
-                document.getElementById('celular').value = "";
-                document.getElementById('cantidad').value = "";
-                alert("¡Venta registrada!");
-
-            } catch (e) {
-                alert("Error al registrar venta: " + e.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "REGISTRAR VENTA";
-            }
+        // Login con Email/Clave
+        window.loginEmail = () => {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            if(!email || !pass) return alert("Llena tus credenciales");
+            
+            signInWithEmailAndPassword(auth, email, pass)
+                .then(() => alert("Ingreso exitoso"))
+                .catch(err => alert("Error de acceso: " + err.message));
         };
     </script>
 </body>
