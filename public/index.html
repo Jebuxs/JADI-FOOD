@@ -12,135 +12,26 @@
             background-size: cover;
             background-position: center;
         }
+        /* Animación estilo Radio para las promos */
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.98); }
+        }
+        .animate-promo { animation: pulse-soft 3s infinite; }
     </style>
 </head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col md:flex-row">
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col md:flex-row overflow-x-hidden">
 
-    <div class="hidden md:flex md:w-2/3 p-8 flex-col justify-between relative overflow-hidden bg-promo">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="hidden md:flex md:w-2/3 p-12 flex-col justify-between relative overflow-hidden bg-promo">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
         
         <div class="relative z-10">
-            <h1 class="text-6xl font-black italic tracking-tighter text-orange-500">JADI-FOOD</h1>
-            <p class="text-xl font-bold text-white mt-2 uppercase tracking-widest">La Red de Comida más grande del Ecuador</p>
+            <h1 class="text-7xl font-black italic tracking-tighter text-orange-500 drop-shadow-2xl">JADI-FOOD</h1>
+            <p class="text-2xl font-bold text-white mt-2 uppercase tracking-[0.2em] opacity-90">El alma en cada paso, el sabor en cada mesa.</p>
         </div>
 
-        <div class="relative z-10 grid grid-cols-2 gap-4">
-            <div class="bg-orange-600/80 p-6 rounded-3xl border border-white/20 animate-pulse">
-                <p class="text-[10px] font-black uppercase">Oferta del Día</p>
-                <h4 class="text-2xl font-bold italic">2x1 en Hamburguesas Súper Jadi</h4>
-            </div>
-            <div class="bg-blue-600/80 p-6 rounded-3xl border border-white/20">
-                <p class="text-[10px] font-black uppercase">Zona Digital</p>
-                <h4 class="text-2xl font-bold italic">¡Paga con QR y obtén 10% OFF!</h4>
-            </div>
-        </div>
-
-        <div class="relative z-10 flex gap-6 text-3xl">
-            <i class="fa-brands fa-facebook hover:text-orange-500 cursor-pointer transition-all"></i>
-            <i class="fa-brands fa-instagram hover:text-orange-500 cursor-pointer transition-all"></i>
-            <i class="fa-brands fa-tiktok hover:text-orange-500 cursor-pointer transition-all"></i>
-            <i class="fa-brands fa-whatsapp hover:text-green-500 cursor-pointer transition-all"></i>
-        </div>
-    </div>
-
-    <div class="w-full md:w-1/3 bg-slate-800 p-8 flex flex-col justify-center border-l border-slate-700 shadow-2xl">
-        
-        <div class="mb-10 text-center md:text-left">
-            <h2 class="text-4xl font-black tracking-tight text-white uppercase">Bienvenido</h2>
-            <p class="text-slate-400 text-sm font-medium">Gestiona tu local en un solo lugar.</p>
-        </div>
-
-        <div class="space-y-6">
-            <div>
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Usuario</label>
-                <input type="email" id="email" placeholder="tu@correo.com" 
-                    class="w-full mt-1 p-4 bg-slate-900 border border-slate-700 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-white">
-            </div>
-
-            <div class="relative">
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Contraseña</label>
-                <input type="password" id="password" placeholder="••••••••" 
-                    class="w-full mt-1 p-4 bg-slate-900 border border-slate-700 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-white">
-                <button onclick="togglePass()" class="absolute right-4 top-10 text-slate-500 hover:text-orange-500 transition-colors">
-                    <i id="eye-icon" class="fa-solid fa-eye"></i>
-                </button>
-            </div>
-
-            <button onclick="entrarEmail()" id="btn-login" class="w-full bg-orange-600 text-white p-5 rounded-2xl font-black text-lg shadow-lg hover:bg-orange-500 active:scale-[0.98] transition-all uppercase italic">
-                Iniciar Sesión
-            </button>
-
-            <div class="relative py-4 text-center">
-                <span class="bg-slate-800 px-4 text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] relative z-10">O conéctate</span>
-                <div class="absolute top-1/2 left-0 w-full border-t border-slate-700"></div>
-            </div>
-
-            <button onclick="entrarGoogle()" class="flex items-center justify-center w-full bg-white p-5 rounded-2xl font-black text-slate-900 hover:bg-slate-100 transition-all active:scale-[0.98] shadow-xl">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/pms/google.png" class="w-6 mr-3">
-                Ingresar con Google
-            </button>
-        </div>
-
-        <div class="mt-12 text-center">
-            <p class="text-sm text-slate-400">
-                ¿Aún no eres parte? 
-                <a href="registro.html" class="block mt-2 text-orange-500 font-black hover:underline underline-offset-8 transition-all uppercase tracking-tighter text-lg">
-                    ¡Registrarme Ahora!
-                </a>
-            </p>
-        </div>
-    </div>
-
-    <script type="module">
-        import { auth, provider, db } from "../config/firebase-config.js";
-        import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        // REDIRECCIÓN INTELIGENTE POR ROL
-        const verificarYRedirigir = async (user) => {
-            const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-            if (userDoc.exists()) {
-                const rol = userDoc.data().rol;
-                if (rol === "super_admin") window.location.href = "panel_admin.html";
-                else if (rol === "admin_local") window.location.href = "admin.html";
-                else window.location.href = "ventas.html";
-            } else {
-                // Si es nuevo, lo mandamos a registro para que cree su perfil
-                window.location.href = "registro.html";
-            }
-        };
-
-        // AUTO-LOGIN (Reconoce sesión abierta)
-        onAuthStateChanged(auth, (user) => {
-            if (user) verificarYRedirigir(user);
-        });
-
-        // ACCESO GOOGLE
-        window.entrarGoogle = async () => {
-            try {
-                const res = await signInWithPopup(auth, provider);
-                verificarYRedirigir(res.user);
-            } catch (e) { alert("Error: " + e.message); }
-        };
-
-        // ACCESO EMAIL
-        window.entrarEmail = async () => {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            if(!email || !pass) return alert("Llena los campos, bro");
-            try {
-                const res = await signInWithEmailAndPassword(auth, email, pass);
-                verificarYRedirigir(res.user);
-            } catch (e) { alert("Credenciales incorrectas"); }
-        };
-
-        // OJITO DE POLLO
-        window.togglePass = () => {
-            const p = document.getElementById('password');
-            const i = document.getElementById('eye-icon');
-            p.type = p.type === "password" ? "text" : "password";
-            i.classList.toggle("fa-eye-slash");
-        };
-    </script>
-</body>
-</html>
+        <div class="relative z-10 grid grid-cols-2 gap-6 mb-10">
+            <div class="bg-orange-600/90 p-8 rounded-[2.5rem] border border-white/20 shadow-2xl animate-promo">
+                <p class="text-[10px] font-black uppercase tracking-widest text-orange-200 mb-2">🔥 ¡SÚPER PROMO!</p>
+                <h4 class="text-3xl font-black italic text-white leading-none">2x1 EN COMBOS JADI</h4>
+                <p class="text-xs mt-2 font-medium">Solo por tiempo limitado en
